@@ -34,14 +34,13 @@ async function getNewTokenAndConversation() {
 
 function cleanBotResponse(text) {
     // AI 경고 메시지 제거
-    const cleanedText = text.replace(/\r\nAI가 생성한 콘텐츠는 올바르지 않을 수 있습니다$/, '');
+    let cleanedText = text.replace(/\r\nAI가 생성한 콘텐츠는 올바르지 않을 수 있습니다$/, '');
     
-    // 따옴표 안의 텍스트 추출 시도
-    const match = cleanedText.match(/"([^"]+)"/);
-    if (match && match[1]) {
-        return match[1];
+    // 전체 텍스트에서 첫 번째와 마지막 따옴표만 처리
+    if (cleanedText.startsWith('"') && cleanedText.endsWith('"')) {
+        cleanedText = cleanedText.substring(1, cleanedText.length - 1);
     }
-    // 매칭되지 않으면 정제된 텍스트 반환
+    
     return cleanedText;
 }
 
